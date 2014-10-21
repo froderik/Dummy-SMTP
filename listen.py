@@ -28,7 +28,7 @@ class FakeSMTPServer(smtpd.SMTPServer):
 
     def process_message(*args, **kwargs):
         headers = Parser().parsestr(args[4])
-        mail = open("mails/"+str(time.time())+".eml", "w")
+        mail = open("mails/"+str(time.time())+'.'+headers['subject']+".eml", "w")
         print "New mail from " + headers['from'] + " to " + headers['to'] + " - " + headers['subject']
         mail.write(args[4])
         mail.close
