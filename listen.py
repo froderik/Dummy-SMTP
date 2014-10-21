@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 """Dummy-SMPT - A noddy fake smtp server
 
 Usage:
@@ -17,6 +17,8 @@ import smtpd
 import asyncore
 import time
 import socket
+import sys
+import os
 from email.parser import Parser
 from docopt import docopt
 
@@ -28,7 +30,7 @@ class FakeSMTPServer(smtpd.SMTPServer):
 
     def process_message(*args, **kwargs):
         headers = Parser().parsestr(args[4])
-        mail = open("mails/"+str(time.time())+'.'+headers['subject']+".eml", "w")
+        mail = open(os.path.dirname(sys.argv[0])+"/mails/"+str(time.time())+'.'+headers['subject']+".eml", "w")
         print "New mail from " + headers['from'] + " to " + headers['to'] + " - " + headers['subject']
         mail.write(args[4])
         mail.close
